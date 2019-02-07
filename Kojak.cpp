@@ -89,7 +89,7 @@ int main(int argc, char* argv[]){
   db.buildPeptides(params.minPepMass,params.maxPepMass,params.miscleave);
   
 
-  // Start Export file
+  // Start Export file 
   db.exportPeptidesList();
   
   // End

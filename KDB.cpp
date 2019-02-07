@@ -15,7 +15,6 @@ limitations under the License.
 */
 
 #include "KDB.h"
-
 using namespace std;
 
 //==============================
@@ -579,29 +578,30 @@ bool KDatabase::compareSequenceB(const kPepSort& p1, const kPepSort& p2){
 //	Add exportPeptides
 
 void KDatabase::exportPeptidesList(){
-	int sizeListPeptides = this->getPeptideListSize();
+	// get outPath
+	string outPathPeptideList = get_current_dir_name();
+	outPathPeptideList += "/listPeptide.txt";
+	
+	//Open file
+	ofstream file;
+	file.open(outPathPeptideList);
+	
+	//Get List of unique peptides
 	std::vector<kPeptide> *pepList = this->getPeptideList();
 	for (std::vector<kPeptide>::iterator it = pepList->begin() ; it != pepList->end(); ++it){
-		//get Mass		
-		printf("%.7lf\n", it->mass);
-		// Get Sequence
 		string sequence;
 		bool testgetSeq = this->getPeptideSeq(*it, sequence);
 		if(! testgetSeq){
-			//Sequence not Ok !
 			sequence = "Not found";
 		}
-		std::cout << sequence << '\n';
 		std::vector<kPepMap>* peptideMap = it->map;
 		for (std::vector<kPepMap>::iterator it_pepMap = peptideMap->begin() ; it_pepMap != peptideMap->end(); ++it_pepMap){
-			printf("Index protein : %d\n", it_pepMap->index);
-			printf("Start : %d\n", it_pepMap->start);
-			printf("End : %d\n", it_pepMap->stop);
-			//Print in file
+			//Get Info from pepmap and print in file 
+			file << it_pepMap->index << ' ' << it_pepMap->start << ' ' << it_pepMap->stop << ' ' << sequence << ' ' << it->mass << '\n';
 		}
 	}
-		
-
+	file.close();
+	printf("Output list of peptide\n");
 }
 
 

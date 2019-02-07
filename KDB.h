@@ -19,8 +19,10 @@ limitations under the License.
 
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
+#include <unistd.h>
 
 #include "KStructs.h"
 
