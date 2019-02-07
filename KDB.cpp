@@ -581,10 +581,10 @@ bool KDatabase::compareSequenceB(const kPepSort& p1, const kPepSort& p2){
 void KDatabase::exportPeptidesList(){
 	int sizeListPeptides = this->getPeptideListSize();
 	std::vector<kPeptide> *pepList = this->getPeptideList();
-	printf("%p", pepList);
-	printf("------------------------------");	
-	printf("%d", sizeListPeptides);
-	printf("------------------------------");	
+	for (std::vector<kPeptide>::iterator it = pepList->begin() ; it != pepList->end(); ++it){
+		printf("%.7lf\n", it->mass);
+	}
+		
 
 }
 
