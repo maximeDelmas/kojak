@@ -582,7 +582,23 @@ void KDatabase::exportPeptidesList(){
 	int sizeListPeptides = this->getPeptideListSize();
 	std::vector<kPeptide> *pepList = this->getPeptideList();
 	for (std::vector<kPeptide>::iterator it = pepList->begin() ; it != pepList->end(); ++it){
+		//get Mass		
 		printf("%.7lf\n", it->mass);
+		// Get Sequence
+		string sequence;
+		bool testgetSeq = this->getPeptideSeq(*it, sequence);
+		if(! testgetSeq){
+			//Sequence not Ok !
+			sequence = "Not found";
+		}
+		std::cout << sequence << '\n';
+		std::vector<kPepMap>* peptideMap = it->map;
+		for (std::vector<kPepMap>::iterator it_pepMap = peptideMap->begin() ; it_pepMap != peptideMap->end(); ++it_pepMap){
+			printf("Index protein : %d\n", it_pepMap->index);
+			printf("Start : %d\n", it_pepMap->start);
+			printf("End : %d\n", it_pepMap->stop);
+			//Print in file
+		}
 	}
 		
 
