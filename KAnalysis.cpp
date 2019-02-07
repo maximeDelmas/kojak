@@ -168,7 +168,7 @@ bool KAnalysis::doPeptideAnalysis(){
 
   //Set which list of peptides to search (with and without internal lysine)
   p=db->getPeptideList();
-
+  
   //track non-links and loops
   soloLoop = new bool[p->size()];
   for(i=0;i<p->size();i++) soloLoop[i]=false;

@@ -87,7 +87,12 @@ int main(int argc, char* argv[]){
     return -1;
   }
   db.buildPeptides(params.minPepMass,params.maxPepMass,params.miscleave);
+  
 
+  // Start Export file
+  db.exportPeptidesList();
+  
+  // End
 
   //Step #3: Read in spectra and map precursors
   //Iterate over all input files
