@@ -43,6 +43,7 @@ typedef struct kPepMap{
   int index;  //protein index
   unsigned short start;  //first aa
   unsigned short stop;   //last aa
+  int pep_index;	// index of the peptide
 } kPepMap;
 
 //Peptide reference to an entry in pldbDB

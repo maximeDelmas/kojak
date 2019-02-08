@@ -159,6 +159,9 @@ bool  KDatabase::buildPeptides(double min, double max, int mis){
 
   int mc;
   int next;
+  
+  // On declare un compteur
+  int count_peptide = 0;
 
   char xlSites;
 
@@ -202,7 +205,7 @@ bool  KDatabase::buildPeptides(double min, double max, int mis){
         bCutMarked=true;
 
         //Add the peptide now (if enough mass)
-        if ((mass+fixMassPepC)>min) addPeptide((int)i, (int)start, (int)n - 1, mass+fixMassPepC, p, vPep, bNTerm, bCTerm, bN15, xlSites);
+        if ((mass+fixMassPepC)>min) addPeptide((int)i, (int)start, (int)n - 1, mass+fixMassPepC, p, vPep, bNTerm, bCTerm, bN15, xlSites, & count_peptide);
 
       }
 
@@ -217,7 +220,7 @@ bool  KDatabase::buildPeptides(double min, double max, int mis){
         bCutMarked=true;
 
         //Add the peptide now (if enough mass)
-        if((mass+fixMassPepC)>min && (mass+fixMassPepC)<max) addPeptide((int)i,(int)start,(int)n,mass+fixMassPepC,p,vPep,bNTerm,bCTerm, bN15, xlSites);
+        if((mass+fixMassPepC)>min && (mass+fixMassPepC)<max) addPeptide((int)i,(int)start,(int)n,mass+fixMassPepC,p,vPep,bNTerm,bCTerm, bN15, xlSites, & count_peptide);
 
       }
 
@@ -228,7 +231,7 @@ bool  KDatabase::buildPeptides(double min, double max, int mis){
       if((start+n+1)==seqSize) {
 
         //Add the peptide now (if enough mass)
-        if ((mass+fixMassPepC+fixMassProtC)>min && (mass+fixMassPepC+fixMassProtC)<max) addPeptide((int)i, (int)start, (int)n, mass+fixMassPepC+fixMassProtC, p, vPep, bNTerm, bCTerm, bN15, xlSites);
+        if ((mass+fixMassPepC+fixMassProtC)>min && (mass+fixMassPepC+fixMassProtC)<max) addPeptide((int)i, (int)start, (int)n, mass+fixMassPepC+fixMassProtC, p, vPep, bNTerm, bCTerm, bN15, xlSites, & count_peptide);
         if(next>-1) {
           start=next+1;
           n=0;
@@ -509,13 +512,17 @@ void KDatabase::setXLTable(char** arr, int szA, int szB){
 //==============================
 //  Private Functions
 //==============================
-void KDatabase::addPeptide(int index, int start, int len, double mass, kPeptide& p, vector<kPeptide>& vP, bool bN, bool bC, bool bN15, char xlSites){
-  kPepMap  pm;
-                           
+void KDatabase::addPeptide(int index, int start, int len, double mass, kPeptide& p, vector<kPeptide>& vP, bool bN, bool bC, bool bN15, char xlSites, int * count_pep){
+  kPepMap  pm;                   
+
   pm.index=index;
   pm.start=start;
   pm.stop=start+len;
-  
+
+  // On incrémente le compteur 
+  pm.pep_index = *count_pep; 
+  *count_pep  += 1;    
+
   p.nTerm=bN;
   p.cTerm=bC;
   p.xlSites=xlSites;
@@ -597,7 +604,7 @@ void KDatabase::exportPeptidesList(){
 		std::vector<kPepMap>* peptideMap = it->map;
 		for (std::vector<kPepMap>::iterator it_pepMap = peptideMap->begin() ; it_pepMap != peptideMap->end(); ++it_pepMap){
 			//Get Info from pepmap and print in file 
-			file << it_pepMap->index << ' ' << it_pepMap->start << ' ' << it_pepMap->stop << ' ' << sequence << ' ' << it->mass << '\n';
+			file << it_pepMap->index << ' ' <<  it_pepMap->pep_index << ' ' << it_pepMap->start << ' ' << it_pepMap->stop << ' ' << sequence << ' ' << it->mass << '\n';
 		}
 	}
 	file.close();

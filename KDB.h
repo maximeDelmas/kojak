@@ -74,7 +74,7 @@ private:
   std::vector<kDB>      vDB;    //Entire FASTA database stored in memory
   std::vector<kPeptide> vPep;   //List of all peptides
 
-  void addPeptide(int index, int start, int len, double mass, kPeptide& p, std::vector<kPeptide>& vP, bool bN, bool bC, bool bN15, char xlSites);
+  void addPeptide(int index, int start, int len, double mass, kPeptide& p, std::vector<kPeptide>& vP, bool bN, bool bC, bool bN15, char xlSites, int * count_pep);
   bool checkAA(kPeptide& p, size_t i, size_t start, size_t n, size_t seqSize, bool& bN, bool& bC);
 
   //Utility functions (for sorting)
