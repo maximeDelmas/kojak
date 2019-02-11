@@ -1772,10 +1772,10 @@ bool KData::outputResults(KDatabase& db, KParams& par){
       }
 
       //Process the protein
-      processProtein(res.pep1, res.link1-1, res.linkSite1, res.protein1, res.protPos1, res.decoy1, db);
-      if (res.modPeptide2.size()>1) processProtein(res.pep2, res.link2-1, res.linkSite2, res.protein2, res.protPos2, res.decoy2, db);
+      processProtein(res.pep1, res.link1-1, res.linkSite1, res.protein1, res.protPos1, res.decoy1, db, res.index_peptide1);
+      if (res.modPeptide2.size()>1) processProtein(res.pep2, res.link2-1, res.linkSite2, res.protein2, res.protPos2, res.decoy2, db, res.index_peptide2);
       else if(res.linkSite2>-1){ //loop link special case.
-        processProtein(res.pep1, res.link2 - 1, res.linkSite2, res.protein2, res.protPos2, res.decoy2, db);
+        processProtein(res.pep1, res.link2 - 1, res.linkSite2, res.protein2, res.protPos2, res.decoy2, db, res.index_peptide2);
       }
 
       tmpPep1=res.peptide1;
@@ -1803,6 +1803,10 @@ bool KData::outputResults(KDatabase& db, KParams& par){
       fprintf(fOut,"\t%s",&res.modPeptide1[0]);
       if(res.n15Pep1) fprintf(fOut,"-15N");
       fprintf(fOut,"\t%d",res.link1);
+      
+      printf("test index_peptide1 : %s \n", res.index_peptide1.c_str());
+      printf("test index_peptide2 : %s \n", res.index_peptide2.c_str());
+
 
       //export protein
       fprintf(fOut, "\t%s", res.protein1.c_str());
@@ -2696,7 +2700,7 @@ string KData::processPeptide(kPeptide& pep, vector<kPepMod>* mod, KDatabase& db)
   return seq;
 }
 
-void KData::processProtein(int pepIndex, int site, char linkSite, string& prot, string& sites, bool& decoy, KDatabase& db){
+void KData::processProtein(int pepIndex, int site, char linkSite, string& prot, string& sites, bool& decoy, KDatabase& db, string & index_pep){
 
   size_t j;
   kPeptide pep;
@@ -2711,14 +2715,22 @@ void KData::processProtein(int pepIndex, int site, char linkSite, string& prot, 
   db.getPeptideSeq(pepIndex,peps);
   prot.clear();
   sites.clear();
+  index_pep.clear();
+
   for (j = 0; j<pep.map->size(); j++){
 
     //for linkage to n- or c- termini, skip protein if not those things
     if(linkSite=='n' && pep.map->at(j).start>1) continue;
     if (linkSite == 'c' && pep.map->at(j).stop < db[pep.map->at(j).index].sequence.size()-1) continue;
 
-    if(prot.size()>0) prot+=";"; //add spacer if appending a prior protein
+    if(prot.size()>0){
+      prot+=";"; //add spacer if appending a prior protein
+      index_pep += ";";
+    } 
     prot+=db[pep.map->at(j).index].name;
+
+    // concat index pep :
+    index_pep += std::to_string(pep.map->at(j).pep_index);
 
     if(site>-1){//add the protein site location
       if(sites.size()>0) sites+=";";

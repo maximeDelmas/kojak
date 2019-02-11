@@ -661,6 +661,10 @@ typedef struct kResults{
   std::string  xlLabel;
   std::vector<kPepMod> mods1;
   std::vector<kPepMod> mods2;
+
+  std::string index_peptide1;
+  std::string index_peptide2;
+
 } kResults;
 
 typedef struct kCKey{
