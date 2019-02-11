@@ -4,8 +4,8 @@ CC = g++
 FLAGS = -O3 -static -std=c++11 -D_NOSQLITE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -DGCC
 
 #Paths to supporting software
-MSTOOLKITPATH = ../../mstoolkit/
-HARDKLORPATH = ../../hardklor/
+MSTOOLKITPATH = ../mstoolkit/
+HARDKLORPATH = ../hardklor/
 
 #Do not touch these variables
 LIBPATH = -L$(MSTOOLKITPATH) -L$(HARDKLORPATH)
