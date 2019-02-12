@@ -1552,7 +1552,8 @@ bool KData::outputResults(KDatabase& db, KParams& par){
 
   //Put the headers on all the files
   fprintf(fOut,"Kojak version %s\n",version);
-  fprintf(fOut,"Scan Number\tRet Time\tObs Mass\tCharge\tPSM Mass\tPPM Error\tScore\tdScore\tE-value\tPeptide #1 Score\tPeptide #1 E-value\tPeptide #1\tLinked AA #1\tProtein #1\tProtein #1 Site\tPeptide #2 Score\tPeptide #2 E-value\tPeptide #2\tLinked AA #2\tProtein #2\tProtein #2 Site\tLinker Mass\n");
+  //Modify header by Adding Index peptide 1 and index peptide 2
+  fprintf(fOut,"Scan Number\tRet Time\tObs Mass\tCharge\tPSM Mass\tPPM Error\tScore\tdScore\tE-value\tPeptide #1 Score\tPeptide #1 E-value\tPeptide #1\tLinked AA #1\tProtein #1\tProtein #1 Site\tPeptide #2 Score\tPeptide #2 E-value\tPeptide #2\tLinked AA #2\tProtein #2\tProtein #2 Site\tLinker Mass\tIndex_pep_1\tIndex_pep_2\n");
   if(params->exportPercolator){
     if(params->percVersion>2.04) {
       fprintf(fIntra,"SpecId\tLabel\tscannr\tScore\tdScore\teVal\teValA\teValB\tIonMatch\tConIonMatch\tIonMatchA\tConIonMatchA\tIonMatchB\tConIonMatchB\t");
@@ -1803,10 +1804,6 @@ bool KData::outputResults(KDatabase& db, KParams& par){
       fprintf(fOut,"\t%s",&res.modPeptide1[0]);
       if(res.n15Pep1) fprintf(fOut,"-15N");
       fprintf(fOut,"\t%d",res.link1);
-      
-      printf("test index_peptide1 : %s \n", res.index_peptide1.c_str());
-      printf("test index_peptide2 : %s \n", res.index_peptide2.c_str());
-
 
       //export protein
       fprintf(fOut, "\t%s", res.protein1.c_str());
@@ -1839,6 +1836,12 @@ bool KData::outputResults(KDatabase& db, KParams& par){
         fprintf(fOut,"\t0\t999\t-\t-1\t-\t-\t0");
       }
       
+      //Add exporting peptide index : 
+
+      fprintf(fOut, "\t%s", res.index_peptide1.c_str());
+      fprintf(fOut, "\t%s", res.index_peptide2.c_str());
+
+
       fprintf(fOut,"\n");
 
       if(res.type==2){
