@@ -2718,7 +2718,7 @@ void KData::processProtein(int pepIndex, int site, char linkSite, string& prot, 
   db.getPeptideSeq(pepIndex,peps);
   prot.clear();
   sites.clear();
-  index_pep.clear();
+  index_pep.clear();    //Comme les prots, on clear l'index_pep
 
   for (j = 0; j<pep.map->size(); j++){
 
@@ -2728,7 +2728,7 @@ void KData::processProtein(int pepIndex, int site, char linkSite, string& prot, 
 
     if(prot.size()>0){
       prot+=";"; //add spacer if appending a prior protein
-      index_pep += ";";
+      index_pep += ";"; 
     } 
     prot+=db[pep.map->at(j).index].name;
 
