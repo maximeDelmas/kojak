@@ -584,10 +584,10 @@ bool KDatabase::compareSequenceB(const kPepSort& p1, const kPepSort& p2){
 
 //	Add exportPeptides
 
-void KDatabase::exportPeptidesList(){
+void KDatabase::exportPeptidesList(char* outpath){
 	// get outPath
-	string outPathPeptideList = get_current_dir_name();
-	outPathPeptideList += "/listPeptide.txt";
+  string path = outpath;
+	string outPathPeptideList = path + "_listPeptide.txt";
 	
 	//Open file
 	ofstream file;

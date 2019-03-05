@@ -89,11 +89,6 @@ int main(int argc, char* argv[]){
   db.buildPeptides(params.minPepMass,params.maxPepMass,params.miscleave);
   
 
-  // Start Export file 
-  db.exportPeptidesList();
-  
-  // End
-
   //Step #3: Read in spectra and map precursors
   //Iterate over all input files
   for(i=0;i<files.size();i++){
@@ -139,6 +134,11 @@ int main(int argc, char* argv[]){
     spec.outputResults(db,p);
 
   }
+
+   // Start Export file 
+  db.exportPeptidesList(params.outFile);
+  
+  // End
 
   cout << "\n****** Finished Kojak Analysis ******" << endl;
 

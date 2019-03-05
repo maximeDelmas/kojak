@@ -57,7 +57,7 @@ public:
   bool                setEnzyme           (char* str);
   void                setN15Label         (char* str);
   void                setXLTable          (char** arr, int szA, int szB);
-  void 		      exportPeptidesList();
+  void 		            exportPeptidesList  (char* outpath);
 private:
   
   //Data Members
